@@ -22,7 +22,7 @@ parameters:
     default: /home/debian/.ssh/authorized_keys
   authkeys_url:
     type: string
-    description: url of authorized keys
+    description: url of authorized keys (format is username.keys, also works on github)
     default: https://cisgitlab.ufv.ca/janzen.keys
   key_name:
     type: string

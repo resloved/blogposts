@@ -1,7 +1,10 @@
-web:
-  image: nginx
-  volumes:
-    - app:/usr/share/nginx/html
-  ports:
-    - 80:80
-  restart: always
+version: "2"
+
+services:
+  wsgi:
+    build: .
+    volumes:
+      - .:/deploy
+    ports:
+      - 8000:8000
+    restart: always
