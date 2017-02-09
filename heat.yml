@@ -1,0 +1,150 @@
+heat_template_version: 2014-10-16
+
+description: >
+  Deploy a single node with a bare repo
+
+  This file deploys a openstack image and creates a bare repository in /repo
+  with a post-receive hook that always checks out the master branch to
+  /deploy and then runs deploysript in that directory.
+
+parameters:
+  username:
+    type: string
+    description: user name used by cloud image (usually one of ubuntu, debian, core, cloud-user)
+    default: debian
+  homedir:
+    type: string
+    description: home directory of default user
+    default: /home/debian
+  authkeys_location:
+    type: string
+    description: location (on host filesystem) of authorized_keys file
+    default: /home/debian/.ssh/authorized_keys
+  authkeys_url:
+    type: string
+    description: url of authorized keys
+    default: https://cisgitlab.ufv.ca/janzen.keys
+  key_name:
+    type: string
+    description: name of ssh key on openstack
+    default: xxd
+  image_name:
+    type: string
+    description: name of openstack image
+    default: debian
+  apt_proxy_url:
+    type: string
+    description: url for local apt proxy (for much faster update/installs)
+    default: "http://172.30.3.3:3142"
+  local_registry_url:
+    type: string
+    description: url for local docker registry (for much faster pulls)
+    default: "http://172.30.3.3:5000"
+
+resources:
+  my_port:
+    type: OS::Neutron::Port
+    properties:
+      network: default
+
+  my_ip:
+    type: OS::Neutron::FloatingIP
+    properties:
+      floating_network: "ssh-proxy"
+      port_id: { get_resource: my_port }
+
+  my_instance:
+    type: OS::Nova::Server
+    properties:
+      name: { get_param: 'OS::stack_name' }
+      networks:
+        - port: { get_resource: my_port }
+      key_name: { get_param: key_name }
+      image: { get_param: image_name }
+      flavor: m1.small
+      user_data_format: RAW
+      user_data:
+        str_replace:
+          template: |
+            #cloud-config
+            hostname: $STACK_NAME
+            manage_etc_hosts: true
+
+
+            write_files:
+            - path: /root/setup-proxy-and-install-docker.sh
+              owner: root
+              permissions: '0755'
+              content: |
+                #!/usr/bin/env bash
+                set -x
+                PROXY_URL="$APT_PROXY_URL"
+                REGISTRY_URL="$LOCAL_REGISTRY_URL"
+                curl $PROXY_URL && {
+                  fn="/etc/apt/apt.conf.d/01proxy"
+                  install -m 0644 /dev/null ${fn}
+                  echo "Acquire::HTTP::Proxy \"$PROXY_URL\";" >> ${fn}
+                  echo "Acquire::HTTPS::Proxy \"$PROXY_URL\";" >> ${fn}
+                } || {
+                  echo "proxy not active"
+                }
+                # install docker: see https://docs.docker.com/engine/installation/linux/debian
+                apt-get update
+                apt-get install -y apt-transport-https ca-certificates software-properties-common curl
+                curl -fsSL https://yum.dockerproject.org/gpg | apt-key add -
+                add-apt-repository "deb https://apt.dockerproject.org/repo/ debian-$(lsb_release -cs) main"
+                apt-get update
+                apt-get install -y docker-engine
+                curl -L https://github.com/docker/compose/releases/download/1.10.0/docker-compose-`uname -s`-`uname -m` > /usr/local/bin/docker-compose
+                chmod +x /usr/local/bin/docker-compose
+
+                curl $REGISTRY_URL && {
+                  sed 's_^ExecStart\(.*\)$_ExecStart\1 --registry-mirror=http://172.30.3.3:5000_g' < /lib/systemd/system/docker.service > /etc/systemd/system/docker.service
+                } || {
+                  echo "pull through registry not active"
+                }
+                systemctl start docker
+                systemctl enable docker
+                usermod -aG docker $USERNAME
+              permissions: '0700'
+            - path: $HOMEDIR/post-receive
+              owner: $USERNAME 
+              permissions: '0755'
+              content: |
+                #!/usr/bin/env bash
+                # Based on:
+                # http://krisjordan.com/essays/setting-up-push-to-deploy-with-git
+                # https://gist.github.com/noelboss/3fe13927025b89757f8fb12e9066f2fa
+
+                while read oldrev newrev ref ; do
+
+                if [[ $ref =~ .*/master$ ]]; then
+                git --work-tree=/deploy checkout -f
+                [ -e run.sh ] && ./run.sh
+                fi
+                done
+            - path: /root/setup-deploy-repository.sh
+              owner: root
+              permissions: '0755'
+              content: |
+                #!/usr/bin/env bash
+                mkdir /deploy
+                chown $USERNAME /deploy
+                git init --bare /repo
+                mv $HOMEDIR/post-receive /repo/hooks
+                chown -R $USERNAME /repo
+                touch $AUTHKEYS_LOCATION
+                chmod 0600 $AUTHKEYS_LOCATION
+                curl $AUTHKEYS_URL >> $AUTHKEYS_LOCATION
+            runcmd:
+              - /root/setup-proxy-and-install-docker.sh
+              - /root/setup-deploy-repository.sh
+          params:
+            $USERNAME: { get_param: username }
+            $HOMEDIR: { get_param: homedir }
+            $AUTHKEYS_LOCATION: { get_param: authkeys_location }
+            $AUTHKEYS_URL: { get_param: authkeys_url }
+            $APT_PROXY_URL: { get_param: apt_proxy_url }
+            $LOCAL_REGISTRY_URL: { get_param: local_registry_url }
+            $STACK_NAME: { get_param: 'OS::stack_name' }
+
