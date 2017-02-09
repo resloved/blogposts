@@ -120,6 +120,7 @@ resources:
 
                 if [[ $ref =~ .*/master$ ]]; then
                 git --work-tree=/deploy checkout -f
+                cd /deploy
                 [ -e run.sh ] && ./run.sh
                 fi
                 done
