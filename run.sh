@@ -1,2 +1,3 @@
 #!/usr/bin/env bash
-logger "Hello World!"
+docker-compose down
+docker-compose up -d
