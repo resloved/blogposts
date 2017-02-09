@@ -10,4 +10,4 @@ RUN pip install --upgrade pip setuptools \
   && pip install \
     Flask \
     gunicorn
-CMD "gunicorn -b :80 project:app"
+CMD "/usr/local/bin/gunicorn -b :80 project:app"
