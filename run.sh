@@ -1,2 +1,2 @@
 #!/usr/bin/env bash
-docker-compose up -d
+docker-compose up --detach --remove-orphans
