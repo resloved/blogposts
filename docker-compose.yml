@@ -1,0 +1,7 @@
+web:
+  image: nginx
+  volumes:
+    - app:/usr/share/nginx/html
+  ports:
+    - 80:80
+  restart: always
