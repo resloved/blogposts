@@ -11,4 +11,4 @@ RUN pip install --upgrade pip setuptools \
     Flask \
     gunicorn
 EXPOSE 80
-CMD "/usr/local/bin/gunicorn -b :80 project:app"
+CMD ["/usr/local/bin/gunicorn -b :80 project:app"]
