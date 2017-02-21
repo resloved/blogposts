@@ -14,7 +14,7 @@ cur.execute(q)
 
 # From: https://gist.github.com/PolBaladas/07bfcdefb5c1c57cdeb5
 
-def insertUser(username,password):
+def insertUser(username, password):
     con = sql.connect("database.db")
     cur = con.cursor()
     cur.execute("INSERT INTO users (username,password) VALUES (?,?)",

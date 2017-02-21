@@ -21,7 +21,7 @@ def home():
         username = request.form['username']
         password = request.form['password']
         models.insertUser(username, password)
+        return render_template('index.html')
+    else:
         users = models.retrieveUsers()
         return render_template('index.html', users=users)
-    else:
-        return render_template('index.html')
