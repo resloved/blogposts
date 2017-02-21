@@ -1,10 +1,10 @@
 import sqlite3 as sql
 
 q = """
-create table if not exists users (
-    id integer primary key autoincrement,
-    username text not null,
-    password text not null
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    password TEXT NOT NULL
 );
 """
 
@@ -17,7 +17,8 @@ cur.execute(q)
 def insertUser(username,password):
     con = sql.connect("database.db")
     cur = con.cursor()
-    cur.execute("INSERT INTO users (username,password) VALUES (?,?)", (username,password))
+    cur.execute("INSERT INTO users (username,password) VALUES (?,?)",
+                (username,password))
     con.commit()
     con.close()
 

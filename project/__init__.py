@@ -17,7 +17,7 @@ def index():
 
 @app.route('/signup', methods=['POST', 'GET'])
 def home():
-    if request.method=='POST':
+    if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         models.insertUser(username, password)
