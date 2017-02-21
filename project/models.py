@@ -1,7 +1,7 @@
 import sqlite3 as sql
 
 q = """
-create table users (
+create table if not exists users (
     id integer primary key autoincrement,
     username text not null,
     password text not null
