@@ -1,6 +1,12 @@
 import sqlite3 as sql
 
-q = ""
+q = """
+CREATE TABLE IF NOT EXISTS users (
+    id INTEGER PRIMARY AUTOINCREMENT,
+    username TEXT NOT NULL,
+    password TEXT NOT NULL,
+);
+"""
 
 con = sql.connect("database.db")
 cur = con.cursor()
