@@ -1,10 +1,10 @@
 import sqlite3 as sql
 
 q = """
-CREATE TABLE IF NOT EXISTS users (
-    id INTEGER PRIMARY AUTOINCREMENT,
-    username TEXT NOT NULL,
-    password TEXT NOT NULL,
+create table users (
+    id integer primary key autoincrement,
+    username text not null,
+    password text not null
 );
 """
 
