@@ -17,14 +17,11 @@ def index():
 
 @app.route('/signup', methods=['POST', 'GET'])
 def home():
-    users = models.retrieveUsers()
     if request.method=='POST':
         username = request.form['username']
         password = request.form['password']
         models.insertUser(username, password)
-        return render_template('index.html', users=users)
-    else:
         return render_template('index.html')
-
-if __name__ == '__main__':
-    app.run(debug=False, host='0.0.0.0')
+    else:
+        users = models.retrieveUsers()
+        return render_template('index.html', users=users)
