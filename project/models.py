@@ -14,13 +14,17 @@ cur.execute(q)
 
 # From: https://gist.github.com/PolBaladas/07bfcdefb5c1c57cdeb5
 
+
 def insertUser(username, password):
+    if getUser(username) is None:
+        return False
     con = sql.connect("database.db")
     cur = con.cursor()
     cur.execute("INSERT INTO users (username,password) VALUES (?,?)",
-                (username,password))
+                (username, password))
     con.commit()
     con.close()
+    return True
 
 
 def retrieveUsers():
@@ -30,3 +34,19 @@ def retrieveUsers():
     users = cur.fetchall()
     con.close()
     return users
+
+
+def getUser(username):
+    user = None
+    users = retrieveUsers()
+    for user in users:
+        if user[0] is username:
+            return user
+    return user
+
+
+def authenticateUser(name, password):
+    user = getUser(name)
+    if user is not None:
+        # compare password
+        return password is user[1]
