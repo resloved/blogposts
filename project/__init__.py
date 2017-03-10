@@ -37,6 +37,7 @@ def authenticate():
         else:
             # error messaage
             error = "Incorrect username or password"
-            return render_template('login.html', error)
+            return render_template('login.html', error=error)
     else:
         return render_template('login.html')
+

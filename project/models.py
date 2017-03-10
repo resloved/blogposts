@@ -14,7 +14,7 @@ cur.execute(q)
 
 # From: https://gist.github.com/PolBaladas/07bfcdefb5c1c57cdeb5
 
-
+# Returns True if succesfully added
 def insertUser(username, password):
     if getUser(username) is None:
         return False
@@ -50,3 +50,4 @@ def authenticateUser(name, password):
     if user is not None:
         # compare password
         return password is user[1]
+    return False
