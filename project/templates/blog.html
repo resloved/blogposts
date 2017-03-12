@@ -18,8 +18,8 @@
         {%for post in posts%}
             {%if authorized%}
             <ul>
-                <textarea rows="4" cols="50" name="comment" form="usrModify">
-                    {{posts[0}}
+                <textarea rows="4" cols="50" name={{post[0]}} form="usrModify">
+                    {{post[2]}}
                 </textarea>
                 <form action="/blog" method="POST" id="usrModify">
                     <input type="submit" value="Update">
@@ -29,7 +29,7 @@
                 </form>
             </ul>
             {%else%}
-            <ul>{{posts[0]}}</ul>
+            <ul>{{post[2]}}</ul>
         {%endfor%}
     </ul>
     {%endif%}

@@ -5,8 +5,10 @@ app = Flask(__name__)
 # From: https://gist.github.com/PolBaladas/07bfcdefb5c1c57cdeb5
 
 from flask import Flask, render_template, request
-import models
+import models, posts, user
 
+
+current = False
 
 @app.route('/')
 def index():
@@ -27,13 +29,14 @@ def home():
 
 
 @app.route('/login', methods=['POST', 'GET'])
-def authenticate():
+def login():
     # compare login
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
         if models.authenticateUser(username, password):
-            return render_template('authenticated.html')
+            current = User(username, True)
+            return redirect(url_for('/blog'))
         else:
             # error messaage
             error = "Incorrect username or password"
@@ -41,3 +44,26 @@ def authenticate():
     else:
         return render_template('login.html')
 
+@app.route('/logout')
+def logout
+    current = None
+    return redirect(url_for('/login'))
+
+@app.route('/blog')
+def blog():
+    if request.method == 'POST':
+        if request.form == 'usrModify'
+            # modify post
+        else if request.form == 'usrPost'
+            # add new post
+        blog = posts.getPosts()
+        # TODO: find better method
+        if current not None:
+            return render_template
+                ('blog.html', blog=blog, authorized = current)
+        return render_template('blog.html', blog=blog)
+    else:
+        if current not None:
+            return render_template
+                ('blog.html', blog=blog, authorized = current)
+        return render_template('blog.html', blog=blog)
