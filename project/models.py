@@ -40,7 +40,7 @@ def getUser(username):
     user = None
     users = retrieveUsers()
     for user in users:
-        if user[0] is username:
+        if user[0] == username:
             return user
     return user
 
