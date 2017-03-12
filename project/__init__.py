@@ -45,25 +45,27 @@ def login():
         return render_template('login.html')
 
 @app.route('/logout')
-def logout
+def logout():
     current = None
     return redirect(url_for('/login'))
 
 @app.route('/blog')
 def blog():
     if request.method == 'POST':
-        if request.form == 'usrModify'
+        if request.form == 'usrModify':
             # modify post
-        else if request.form == 'usrPost'
+            return False
+        elif request.form == 'usrPost':
             # add new post
+            return False
         blog = posts.getPosts()
         # TODO: find better method
-        if current not None:
-            return render_template
+        if current is not None:
+            return render_template \
                 ('blog.html', blog=blog, authorized = current)
         return render_template('blog.html', blog=blog)
     else:
-        if current not None:
-            return render_template
+        if current is not None:
+            return render_template \
                 ('blog.html', blog=blog, authorized = current)
         return render_template('blog.html', blog=blog)
