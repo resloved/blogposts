@@ -67,6 +67,7 @@ def blog():
                 ('blog.html', blog=blog, authorized = current)
         return render_template('blog.html', blog=blog)
     else:
+        blog = posts.getPosts()
         if current is not None:
             return render_template \
                 ('blog.html', blog=blog, authorized = current)
