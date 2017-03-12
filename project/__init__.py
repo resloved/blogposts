@@ -5,7 +5,8 @@ app = Flask(__name__)
 # From: https://gist.github.com/PolBaladas/07bfcdefb5c1c57cdeb5
 
 from flask import Flask, render_template, request
-import models, posts, user
+import models, posts
+from user import User
 
 
 current = False
@@ -43,6 +44,7 @@ def login():
             return render_template('login.html', error=error)
     else:
         return render_template('login.html')
+
 
 @app.route('/logout')
 def logout():
