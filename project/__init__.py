@@ -50,7 +50,7 @@ def login():
 
 @app.route('/logout')
 def logout():
-    if current not None:
+    if current is not None:
         current = None
         return redirect(url_for('/login'))
 
