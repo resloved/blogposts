@@ -22,9 +22,10 @@ def home():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
-        models.insertUser(username, password)
-        users = models.retrieveUsers()
-        return render_template('index.html', users=users)
+        if models.insertUser(username, password):
+            return render_template('index.html', users=users)
+        else:
+            return render_template('index.html', error='Name Taken')
     else:
         users = models.retrieveUsers()
         return render_template('index.html', users=users)
@@ -36,21 +37,22 @@ def login():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        # succesful authentication
         if models.authenticateUser(username, password):
             current = User(username, True)
             return redirect(url_for('/blog'))
+        # failed authentication
         else:
-            # error messaage
             error = "Incorrect username or password"
             return render_template('login.html', error=error)
-    else:
-        return render_template('login.html')
+    return render_template('login.html')
 
 
 @app.route('/logout')
 def logout():
-    current = None
-    return redirect(url_for('/login'))
+    if current not None:
+        current = None
+        return redirect(url_for('/login'))
 
 @app.route('/blog')
 def blog():

@@ -49,5 +49,5 @@ def authenticateUser(name, password):
     user = getUser(name)
     if user is not None:
         # compare password
-        return password is user[1]
+        return password == user[1]
     return False

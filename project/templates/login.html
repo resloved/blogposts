@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {%if error%}
-    <h1>{{error}}</h1>
-    {%endif%}
     <meta charset="UTF-8">
     <title>Login</title>
+    {%if error%}
+    <h2>{{error}}</h2>
+    {%endif%}
     <form action="/login" method="POST">
         <input type="text" name="username" required><br>
         <input type="password" name="password" required><br>
