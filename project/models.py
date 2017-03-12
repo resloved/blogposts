@@ -16,7 +16,7 @@ cur.execute(q)
 
 # Returns True if succesfully added
 def insertUser(username, password):
-    if getUser(username) is None:
+    if getUser(username) is not None:
         return False
     con = sql.connect("database.db")
     cur = con.cursor()
