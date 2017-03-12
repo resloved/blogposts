@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Blog</title>
+</head>
+<body>
+    <h1>Blog posts</h1>
+    {%if authorized%}
+    <textarea rows="4" cols="50" name="comment" form="usrPost"></textarea>
+    <form action="/blog" method="POST" id="usrPost">
+        <input type="submit">
+    </form>
+    {%endif%}
+    {%if posts%}
+    <ul id="tray">
+        <!--<div class="post"></div>-->
+        {%for post in posts%}
+            {%if authorized%}
+            <ul>
+                <textarea rows="4" cols="50" name="comment" form="usrModify">
+                    {{posts[0}}
+                </textarea>
+                <form action="/blog" method="POST" id="usrModify">
+                    <input type="submit" value="Update">
+                </form>
+                <form action="/blog" method="POST" id="usrDelete">
+                    <input type="submit" value="Delete">
+                </form>
+            </ul>
+            {%else%}
+            <ul>{{posts[0]}}</ul>
+        {%endfor%}
+    </ul>
+    {%endif%}
+</body>
+</html>
