@@ -37,6 +37,7 @@ def getPosts():
     cur.execute("SELECT id, title, user, body FROM posts")
     data = cur.fetchall()
     con.close()
+    posts = []
     for tuple in data:
         posts.append(Post(tuple[0], tuple[1], tuple[2], tuple[3]))
     return posts
