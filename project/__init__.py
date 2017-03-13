@@ -13,11 +13,11 @@ current = False
 
 @app.route('/')
 def index():
-    return redirect(url_for('/signup'))
+    return redirect(url_for('signup'))
 
 
 @app.route('/signup', methods=['POST', 'GET'])
-def home():
+def signup():
     # add new user
     if request.method == 'POST':
         username = request.form['username']
@@ -46,7 +46,7 @@ def login():
         # succesful authentication
         if models.authenticateUser(username, password):
             current = User(username, True)
-            return redirect(url_for('/blog'))
+            return redirect(url_for('blog'))
         # failed authentication
         else:
             error = "Incorrect username or password"
@@ -59,7 +59,7 @@ def login():
 def logout():
     if current is not None:
         current = None
-        return redirect(url_for('/login'))
+        return redirect(url_for('login'))
 
 @app.route('/blog')
 def blog():
