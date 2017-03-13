@@ -23,7 +23,7 @@
                 <h3>{{post.title}}</h3>
                 <h3>{{post.user}}</h3>
                 {%if authorized%}
-                <textarea rows="4" cols="50" name={{post.id]}} form="usrModify">
+                <textarea rows="4" cols="50" name={{post.id}} form="usrModify">
                     {{post.body}}
                 </textarea>
                 <form action="/blog" method="POST" id="usrModify">
