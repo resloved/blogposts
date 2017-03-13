@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 # From: https://gist.github.com/PolBaladas/07bfcdefb5c1c57cdeb5
 
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, url_for
 import models, posts
 from user import User
 
