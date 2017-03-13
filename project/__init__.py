@@ -5,7 +5,7 @@ app = Flask(__name__)
 # From: https://gist.github.com/PolBaladas/07bfcdefb5c1c57cdeb5
 
 from flask import Flask, render_template, request, redirect, url_for, session
-import models, posts
+import models, posts, os
 from user import User
 
 
@@ -80,3 +80,5 @@ def blog():
             return render_template \
                 ('blog.html', blog=blog, authorized=session['user'])
         return render_template('blog.html', blog=blog)
+
+app.secret_key = os.urandom(24)
