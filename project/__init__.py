@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 # From: https://gist.github.com/PolBaladas/07bfcdefb5c1c57cdeb5
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import models, posts
 from user import User
 
@@ -57,6 +57,7 @@ def login():
 def logout():
     session.pop('username', None)
     redirect(url_from('login'))
+
 
 @app.route('/blog')
 def blog():
