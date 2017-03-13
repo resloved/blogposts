@@ -13,8 +13,7 @@ current = False
 
 @app.route('/')
 def index():
-    return Response("Hello World!"), 200
-
+    return redirect(url_for('/signup')) 
 
 @app.route('/signup', methods=['POST', 'GET'])
 def home():
@@ -22,13 +21,19 @@ def home():
     if request.method == 'POST':
         username = request.form['username']
         password = request.form['password']
+        # succesful creation
         if models.insertUser(username, password):
-            return render_template('index.html', users=users)
+            users = models.retrieveUsers()
+            return render_template \
+                ('index.html', users=users)
+        # failed creation
         else:
-            return render_template('index.html', error='Name Taken')
-    else:
-        users = models.retrieveUsers()
-        return render_template('index.html', users=users)
+            users = models.retrieveUsers()
+            return render_template \
+                ('index.html', users=users, error='Name Taken')
+    # main
+    users = models.retrieveUsers()
+    return render_template('index.html', users=users)
 
 
 @app.route('/login', methods=['POST', 'GET'])
@@ -45,6 +50,7 @@ def login():
         else:
             error = "Incorrect username or password"
             return render_template('login.html', error=error)
+    # main
     return render_template('login.html')
 
 
