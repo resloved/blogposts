@@ -10,8 +10,8 @@
     <h2>Logged in as {{authorized}}</h2>
     <form action="/blog" method="POST" id="usrPost">
         Title:<br>
-        <input type="text" name="title">
-        <textarea rows="4" cols="50" name="body"></textarea>
+        <input type="text" name="title"><br>
+        <textarea rows="4" cols="50" name="body"></textarea><br>
         <input type="submit">
     </form>
     {%endif%}
@@ -23,14 +23,12 @@
                 <h3>{{post.title}}</h3>
                 <h3>{{post.user}}</h3>
                 {%if authorized%}
-                <textarea rows="4" cols="50" name={{post.id}} form="usrModify">
-                    {{post.body}}
-                </textarea>
                 <form action="/blog" method="POST" id="usrModify">
-                    <input type="submit" value="Update">
-                </form>
-                <form action="/blog" method="POST" id="usrDelete">
-                    <input type="submit" value="Delete">
+                    <textarea rows="4" cols="50" name={{post.id}} form="usrModify">
+                        {{post.body}}
+                    </textarea><br>
+                    <input type="submit" value="Update"><br>
+                    <input type="submit" value="Delete"><br>
                 </form>
                 {%else%}
                 <p>{{post.body}}</p>

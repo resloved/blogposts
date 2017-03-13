@@ -56,17 +56,17 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    redirect(url_for('login'))
+    return redirect(url_for('login'))
 
 
 @app.route('/blog')
 def blog():
     if request.method == 'POST':
         # modify post
-        if request.form == 'usrModify':
+        if 'usrModify' in request.form:
             return False
         # new post
-        elif request.form == 'usrPost':
+        elif 'usrPost' in request.form:
             title = request.form['title']
             body = request.form['body']
             posts.newPost(title, session['user'], body)
