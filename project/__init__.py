@@ -4,12 +4,12 @@ app = Flask(__name__)
 
 # From: https://gist.github.com/PolBaladas/07bfcdefb5c1c57cdeb5
 
-from flask import Flask, render_template, request, redirect, url_for
+from flask import Flask, render_template, request, redirect, url_for, session
 import models, posts
 from user import User
 
 
-current = False
+session['user'] = None
 
 @app.route('/')
 def index():
@@ -45,7 +45,7 @@ def login():
         password = request.form['password']
         # succesful authentication
         if models.authenticateUser(username, password):
-            current = User(username, True)
+            session['user'] = User(username, password)
             return redirect(url_for('blog'))
         # failed authentication
         else:
@@ -57,8 +57,8 @@ def login():
 
 @app.route('/logout')
 def logout():
-    if current is not None:
-        current = None
+    if session['user'] is not None:
+        session['user'] = None
         return redirect(url_for('login'))
 
 @app.route('/blog')
@@ -72,13 +72,13 @@ def blog():
             return False
         blog = posts.getPosts()
         # TODO: find better method
-        if current is not None:
+        if session['user'] is not None:
             return render_template \
-                ('blog.html', blog=blog, authorized=current)
+                ('blog.html', blog=blog, authorized=session['user'])
         return render_template('blog.html', blog=blog)
     else:
         blog = posts.getPosts()
-        if current is not None:
+        if session['user'] is not None:
             return render_template \
-                ('blog.html', blog=blog, authorized=current)
+                ('blog.html', blog=blog, authorized=session['user'])
         return render_template('blog.html', blog=blog)
