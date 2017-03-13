@@ -35,6 +35,16 @@ def getPosts():
     con = sql.connect("posts.db")
     cur = con.cursor()
     cur.execute("SELECT id, title, user, body FROM posts")
-    posts = cur.fetchall()
+    data = cur.fetchall()
     con.close()
+    for tuple in data:
+        posts.append(Post(tuple[0], tuple[1], tuple[2], tuple[3]))
     return posts
+
+
+class Post:
+    def __init__(self, id, title, user, body):
+        self.id = id
+        self.title = title
+        self.user = user
+        self.body = body

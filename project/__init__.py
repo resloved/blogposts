@@ -56,18 +56,20 @@ def login():
 @app.route('/logout')
 def logout():
     session.pop('username', None)
-    redirect(url_from('login'))
+    redirect(url_for('login'))
 
 
 @app.route('/blog')
 def blog():
     if request.method == 'POST':
+        # modify post
         if request.form == 'usrModify':
-            # modify post
             return False
+        # new post
         elif request.form == 'usrPost':
-            # add new post
-            return False
+            title = request.form['title']
+            body = request.form['body']
+            posts.newPost(title, session['user'], body)
         blog = posts.getPosts()
         # TODO: find better method
         if 'user' in session:
