@@ -4,7 +4,7 @@ app = Flask(__name__)
 
 # From: https://gist.github.com/PolBaladas/07bfcdefb5c1c57cdeb5
 
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, redirect
 import models, posts
 from user import User
 
@@ -13,7 +13,8 @@ current = False
 
 @app.route('/')
 def index():
-    return redirect(url_for('/signup')) 
+    return redirect(url_for('/signup'))
+
 
 @app.route('/signup', methods=['POST', 'GET'])
 def home():
