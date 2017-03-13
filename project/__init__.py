@@ -59,7 +59,7 @@ def logout():
     return redirect(url_for('login'))
 
 
-@app.route('/blog')
+@app.route('/blog', methods=['POST', 'GET'])
 def blog():
     if request.method == 'POST':
         # modify post
