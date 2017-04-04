@@ -7,7 +7,14 @@ app = Flask(__name__)
 from flask import Flask, render_template, request, redirect, url_for, session
 import models, posts, os
 from user import User
+from wtforms import Form, StringField, PasswordField, validators
 
+class RegistrationForm(Form):
+    username = StringField('Username', [validators.Length(min=4, max=25)])
+    password = PasswordField('New Password', [
+        validators.DataRequired(),
+        validators.EqualTo('confirm', message='Passwords must match')
+    ])
 
 @app.route('/')
 def index():
@@ -16,12 +23,11 @@ def index():
 
 @app.route('/signup', methods=['POST', 'GET'])
 def signup():
+    form = RegistrationForm(request.form)
     # add new user
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    if request.method == 'POST' and form.validate():
         # succesful creation
-        if models.insertUser(username, password):
+        if models.insertUser(form.username.data, form.password.data):
             users = models.retrieveUsers()
             return render_template \
                 ('index.html', users=users)
@@ -37,12 +43,11 @@ def signup():
 
 @app.route('/login', methods=['POST', 'GET'])
 def login():
+    form = RegistrationForm(request.form)
     # compare login
-    if request.method == 'POST':
-        username = request.form['username']
-        password = request.form['password']
+    if request.method == 'POST' and form.validate():
         # succesful authentication
-        if models.authenticateUser(username, password):
+        if models.authenticateUser(form.username.data, form.password.data):
             session['user'] = username
             return redirect(url_for('blog'))
         # failed authentication
