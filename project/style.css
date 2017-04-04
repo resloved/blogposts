@@ -1,0 +1,13 @@
+body {
+background:red;
+}
+
+.center-row {
+    display:table;
+}
+
+.center {
+    display:table-cell;
+    vertical-align:middle;
+    float:none;
+}
