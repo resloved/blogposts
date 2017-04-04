@@ -11,17 +11,15 @@
 </head>
 <body>
     <div class="container">
-        <div class="row">
-            <div class="col-xs-4 col-xs-offset-4">
-                <h2>{{error}}</h2>
-                {%if error%}
-                {%endif%}
-                <form action="/login" method="POST">
-                    <input type="text" name="username" required><br>
-                    <input type="password" name="password" required><br>
-                    <input type="submit">
-                </form>
-            </div>
+        <div>
+            <h2>{{error}}</h2>
+            {%if error%}
+            {%endif%}
+            <form action="/login" method="POST">
+                <input type="text" name="username" required><br>
+                <input type="password" name="password" required><br>
+                <input type="submit">
+            </form>
         </div>
     </div>
 </body>
