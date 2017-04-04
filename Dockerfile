@@ -9,6 +9,7 @@ WORKDIR /deploy
 RUN pip install --upgrade pip setuptools \
   && pip install \
     Flask \
-    gunicorn
+    gunicorn \
+    WTForms
 EXPOSE 80
 CMD ["/usr/local/bin/gunicorn", "-b", ":80", "project:app"]
