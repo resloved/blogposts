@@ -1,3 +1,13 @@
+.box {
+    background:grey;
+    padding:10px;
+    border:1px;
+}
+
+.error {
+    background:red;
+}
+
 .center-row {
     display:table;
 }

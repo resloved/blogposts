@@ -11,17 +11,19 @@
 </head>
 <body>
     <div class="container">
-        <div class="row">
+        <div class="box">
             <h1>New User</h1>
-            {%if error%}
-            <h2>{{error}}</h2>
-            {%endif%}
-            <form action="/signup" method="POST">
-                <input type="text" name="username" required><br>
-                <input type="password" name="password" required><br>
-                <input type="submit">
-            </form>
-            {%if users%}
+        </div>
+        {%if error%}
+        <div class="box error">{{error}}</div>
+        {%endif%}
+        <form action="/signup" method="POST">
+            <input type="text" name="username" required><br>
+            <input type="password" name="password" required><br>
+            <input type="submit">
+        </form>
+        {%if users%}
+        <div class="box">
             <h1>Current Users</h1>
             <ul>
                 {%for user in users%}
@@ -29,7 +31,7 @@
                 {%endfor%}
                 {%endif%}
             </ul>
-        <div>
+        </div>
     </div>
 </body>
 </html>
