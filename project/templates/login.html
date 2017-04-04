@@ -9,13 +9,15 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    {%if error%}
-    <h2>{{error}}</h2>
-    {%endif%}
-    <form action="/login" method="POST">
-        <input type="text" name="username" required><br>
-        <input type="password" name="password" required><br>
-        <input type="submit">
-    </form>
+    <div class="container">
+        {%if error%}
+        <h2>{{error}}</h2>
+        {%endif%}
+        <form action="/login" method="POST">
+            <input type="text" name="username" required><br>
+            <input type="password" name="password" required><br>
+            <input type="submit">
+        </form>
+    </div>
 </body>
 </html>

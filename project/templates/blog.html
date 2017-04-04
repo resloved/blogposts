@@ -9,37 +9,39 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-    <h1>Blog posts</h1>
-    {%if authorized%}
-    <h2>Logged in as {{authorized}}</h2>
-    <form action="/blog" method="POST" id="usrPost">
-        Title:<br>
-        <input type="text" name="title"><br>
-        <textarea rows="4" cols="50" name="body"></textarea><br>
-        <input type="submit">
-    </form>
-    {%endif%}
-    {%if blog%}
-    <ul id="tray">
-        <!--<div class="post"></div>-->
-        {%for post in blog%}
-            <ul>
-                <h3>{{post.title}}</h3>
-                <h3>{{post.user}}</h3>
-                {%if authorized%}
-                <form action="/blog" method="POST" id="usrModify">
-                    <textarea rows="4" cols="50" name={{post.id}} form="usrModify">
-                        {{post.body}}
-                    </textarea><br>
-                    <input type="submit" value="Update"><br>
-                    <input type="submit" value="Delete"><br>
-                </form>
-                {%else%}
-                <p>{{post.body}}</p>
-                {%endif%}
-            </ul>
-        {%endfor%}
-    </ul>
-    {%endif%}
+    <div class="container">
+        <h1>Blog posts</h1>
+        {%if authorized%}
+        <h2>Logged in as {{authorized}}</h2>
+        <form action="/blog" method="POST" id="usrPost">
+            Title:<br>
+            <input type="text" name="title"><br>
+            <textarea rows="4" cols="50" name="body"></textarea><br>
+            <input type="submit">
+        </form>
+        {%endif%}
+        {%if blog%}
+        <ul id="tray">
+            <!--<div class="post"></div>-->
+            {%for post in blog%}
+                <ul>
+                    <h3>{{post.title}}</h3>
+                    <h3>{{post.user}}</h3>
+                    {%if authorized%}
+                    <form action="/blog" method="POST" id="usrModify">
+                        <textarea rows="4" cols="50" name={{post.id}} form="usrModify">
+                            {{post.body}}
+                        </textarea><br>
+                        <input type="submit" value="Update"><br>
+                        <input type="submit" value="Delete"><br>
+                    </form>
+                    {%else%}
+                    <p>{{post.body}}</p>
+                    {%endif%}
+                </ul>
+            {%endfor%}
+        </ul>
+        {%endif%}
+    </div>
 </body>
 </html>
