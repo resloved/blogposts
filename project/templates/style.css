@@ -1,11 +1,13 @@
-html,
 body {
-    height: 100%;
+background:red;
 }
 
-.container {
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.center-row {
+    display:table;
+}
+
+.center {
+    display:table-cell;
+    vertical-align:middle;
+    float:none;
 }
