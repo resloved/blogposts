@@ -39,6 +39,10 @@ def getPosts():
     con.close()
     posts = []
     for tuple in data:
+        print(tuple[0])
+        print(tuple[1])
+        print(tuple[2])
+        print(tuple[3])
         posts.append(Post(tuple[0], tuple[1], tuple[2], tuple[3]))
     return posts
 
