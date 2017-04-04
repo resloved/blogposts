@@ -1,11 +1,12 @@
 .box {
-    background:grey;
+    background-color:grey;
     padding:10px;
     border:1px;
+    color:white
 }
 
 .error {
-    background:red;
+    background-color:red;
 }
 
 .center-row {
