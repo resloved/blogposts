@@ -10,14 +10,18 @@
 </head>
 <body>
     <div class="container">
-        {%if error%}
-        <h2>{{error}}</h2>
-        {%endif%}
-        <form action="/login" method="POST">
-            <input type="text" name="username" required><br>
-            <input type="password" name="password" required><br>
-            <input type="submit">
-        </form>
+        <div class="row">
+            <div class="col-md-2 col-md-offset-5">
+                <h2>{{error}}</h2>
+                {%if error%}
+                {%endif%}
+                <form action="/login" method="POST">
+                    <input type="text" name="username" required><br>
+                    <input type="password" name="password" required><br>
+                    <input type="submit">
+                </form>
+            </div>
+        </div>
     </div>
 </body>
 </html>
