@@ -3,7 +3,7 @@ A basic flask app for hosting public blogposts created by users. This project wa
 ## Usage
 Refer to [USAGE.md](USAGE.md) for how to properly deploy.
 ## Technologies
-    * Database: [sqlite]()
-    * HTML/CSS Framework: [Bootstrap]()
-    * App Framework: [Flask]()
-    * Deployment: [Docker]()
+* Database: [SQLite](https://www.sqlite.org/)
+* HTML/CSS Framework: [Bootstrap](http://getbootstrap.com/)
+* App Framework: [Flask](http://flask.pocoo.org/)
+* Deployment: [Docker](https://www.docker.com/)
